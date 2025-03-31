@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        header {
+            margin-top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgb(193, 59, 255);
+            font-size: 30px;
+        }
+
+        section {
+            width: 500px;
+            height: 500px;
+            background-color: rgb(255, 237, 212);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centering content vertically */
+            align-items: center;
+            /* Centering content horizontally */
+            margin: auto;
+        }
+
+        .boxes {
+            display: flex;
+            background-color: rgb(255, 255, 255);
+            width: 450px;
+            height: 150px;
+            gap: 20px;
+            /* Equal spacing between boxes */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            width: 120px;
+            height: 119px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: 1000;
+            color: rgb(248, 92, 136);
+            border: 5px solid rgb(250, 255, 98);
+            background-color: rgb(29, 209, 128);
+        }
+
+          .winner{
+            display: flex;
+            font-size: 50px;
+            font-weight: 700;
+            justify-content: center;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Tic Tec Toe</h1>
+    </header>
+
+    <section>
+
+        <div class="boxes">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </div>
+
+        <div class="boxes">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </div>
+
+        <div class="boxes">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+        </div>
+
+
+
+    </section>
+
+    <h1 class="winner"></h1>
+    
+    <script>
+
+        const x = 'X';
+        const o = 'O';
+
+        let turn = x;
+        let count = 1;
+        let gameOver = false;
+
+        let boxes = document.querySelectorAll('.box');
+        const win = document.querySelector('.winner');
+
+        boxes.forEach((box, index) => {
+            box.addEventListener('click', function () {
+
+                if (gameOver) return;
+                
+                if (box.innerHTML === 'X' || box.innerHTML === 'O' ) {
+                    alert("this place is already filed please try a empty space");
+                }
+                else {
+
+                    if (turn === x && (count % 2 !== 0) ) {
+                        box.innerHTML = turn;
+                        console.log(turn);
+                        count++;
+                        Checkwin();
+                        turn = o;
+                    }
+                    else if (turn === o && count % 2 === 0  ) {
+                        box.innerHTML = turn;
+                        console.log(turn);
+                        count++;
+                        Checkwin();
+
+                        turn = x;
+                    }
+
+                }
+            });
+        });
+
+
+        function Checkwin() {
+
+            let winPatterns = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+
+            for (let pattern of winPatterns) {
+                let [a, b, c] = pattern;
+                if (boxes[a].innerHTML !== "" &&
+                    boxes[a].innerHTML === boxes[b].innerHTML &&
+                    boxes[b].innerHTML === boxes[c].innerHTML) {
+
+                    console.log(`Winner: ${boxes[a].innerHTML}`);
+                    gameOver = true;
+
+
+                    setTimeout(() => {
+                        
+                        win.innerHTML = `${boxes[a].innerHTML} is the winner`;
+
+                        // alert(`Winner: ${boxes[a].innerHTML}`);
+                    }, 200);
+                    return;
+                }
+            }
+
+            if (count === 10) {
+                setTimeout(() => {
+                    win.innerHTML = `Match Draw`;
+
+                }, 200);
+                gameOver = true;
+            }
+
+        };
+
+    </script>
+
+</body>
+
+</html>
